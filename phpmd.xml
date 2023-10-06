@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<ruleset name="Customer Portal Project">
+    <description>PHP Mess Detector rules for the CustomerPortal project</description>
+    <rule ref="rulesets/cleancode.xml"/>
+    <rule ref="rulesets/codesize.xml"/>
+    <rule ref="rulesets/controversial.xml"/>
+    <rule ref="rulesets/design.xml"/>
+    <rule ref="rulesets/naming.xml"/>
+</ruleset>
