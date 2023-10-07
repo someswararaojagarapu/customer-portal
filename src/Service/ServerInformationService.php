@@ -48,7 +48,7 @@ class ServerInformationService
             return $isMatch;
         });
 
-        return $filteredServers;
+        return array_values($filteredServers);
     }
 
     public function prepareInputData(array $data): array
