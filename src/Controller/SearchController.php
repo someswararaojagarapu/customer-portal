@@ -3,8 +3,11 @@
 namespace App\CustomerPortal\Controller;
 
 use App\CustomerPortal\Dto\Request\SearchQuery;
+use App\CustomerPortal\Exception\NotFoundException;
+use App\CustomerPortal\Service\FilterInformationService;
 use App\CustomerPortal\Service\ServerInformationService;
 use App\CustomerPortal\Manager\FileReaderManager;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,18 +18,36 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class SearchController extends AbstractController
 {
     public function __construct(
+        private readonly FileReaderManager $fileReaderManager,
+        private readonly FilterInformationService $filterInformationService,
         private readonly ServerInformationService $serverInformationService
     ) {
+
     }
 
-    #[Route('/server/information/list', name: 'server_information_list', methods: 'GET')]
+    #[Route('/server/filter/list', name: 'server_filter_list', methods: 'GET')]
+    public function filterList(): JsonResponse {
+        try {
+            $serverInfoJson = $this->fileReaderManager->readJson();
+            $response = $this->filterInformationService->getFilterResult($serverInfoJson);
+            if (empty($response)) {
+                throw new NotFoundException('Resource not found');
+            }
+
+            return new JsonResponse($response, Response::HTTP_OK);
+        } catch (NotFoundException $exception) {
+            return new JsonResponse(['error' => $exception->getMessage()], Response::HTTP_NOT_FOUND);
+        } catch (\Exception $exception) {
+            return new JsonResponse(['error' => 'Internal Server Error'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    #[Route('/server/information/list', name: 'server_information_list', methods: 'POST')]
     public function index(
-        Request $request,
-        FileReaderManager $fileReaderManager,
         #[MapRequestPayload(serializationContext: [])] SearchQuery $searchQuery
     ): Response {
         $query = $this->serverInformationService->getQuery($searchQuery);
-        $serverInfoJson = $fileReaderManager->readJson();
+        $serverInfoJson = $this->fileReaderManager->readJson();
         $response = $this->serverInformationService->getServerInformationResult($query);
 
         return new Response($response['body'] ?? '', $response['statusCode'], $response['headers']);

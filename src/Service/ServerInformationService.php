@@ -9,8 +9,8 @@ class ServerInformationService
     {
 
     }
-    public function getServerInformationResult()
+    public function getServerInformationResult($serverInfoJson)
     {
-
+        
     }
 }
