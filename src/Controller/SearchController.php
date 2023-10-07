@@ -4,6 +4,7 @@ namespace App\CustomerPortal\Controller;
 
 use App\CustomerPortal\Dto\Request\SearchQuery;
 use App\CustomerPortal\Exception\NotFoundException;
+use App\CustomerPortal\Service\CacheFilterInformationService;
 use App\CustomerPortal\Service\FilterInformationService;
 use App\CustomerPortal\Service\ServerInformationService;
 use App\CustomerPortal\Manager\FileReaderManager;
@@ -19,17 +20,16 @@ class SearchController extends AbstractController
 {
     public function __construct(
         private readonly FileReaderManager $fileReaderManager,
-        private readonly FilterInformationService $filterInformationService,
+        private readonly CacheFilterInformationService $cacheFilterInformationService,
         private readonly ServerInformationService $serverInformationService
     ) {
 
     }
 
     #[Route('/server/filter/list', name: 'server_filter_list', methods: 'GET')]
-    public function filterList(): JsonResponse {
+    public function filterList(int $filterExpirationTime): JsonResponse {
         try {
-            $serverInfoJson = $this->fileReaderManager->readJson();
-            $response = $this->filterInformationService->getFilterResult($serverInfoJson);
+            $response = $this->cacheFilterInformationService->getFilterResultFromRedis($filterExpirationTime);
             if (empty($response)) {
                 throw new NotFoundException('Resource not found');
             }
@@ -38,7 +38,7 @@ class SearchController extends AbstractController
         } catch (NotFoundException $exception) {
             return new JsonResponse(['error' => $exception->getMessage()], Response::HTTP_NOT_FOUND);
         } catch (\Exception $exception) {
-            return new JsonResponse(['error' => 'Internal Server Error'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return new JsonResponse(['error' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
