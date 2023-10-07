@@ -10,22 +10,14 @@ class FileReaderManager
 {
     const JSON_FILE_NAME = 'coding-challenge.json';
 
-    /** KernelInterface $appKernel */
-    private $appKernel;
+    private KernelInterface $appKernel;
 
-    /**
-     * FileReaderManager constructor.
-     * @param KernelInterface $appKernel
-     */
     public function __construct(KernelInterface $appKernel)
     {
         $this->appKernel = $appKernel;
     }
 
-    /**
-     * @return string|Response
-     */
-    public function readJson()
+    public function readJson(): string | Response
     {
         try {
             $projectRoot = $this->appKernel->getProjectDir();

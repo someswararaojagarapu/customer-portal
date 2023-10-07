@@ -39,7 +39,7 @@ class ServerInfoValidationService
             })
             ->setAllowedTypes('hardDiskType', 'string')
             ->setAllowedValues('hardDiskType', function ($hardDiskType) use ($hardDiskOptions) {
-                if(!in_array($hardDiskType, array_values($hardDiskOptions))) {
+                if(!empty($hardDiskType) && !in_array($hardDiskType, array_values($hardDiskOptions))) {
                     return false;
                 }
                 return true;

@@ -27,12 +27,25 @@ class ServerInformationService
 
         // Filter the servers based on selected filters
         $filteredServers = array_filter($inputData, function ($server) use ($selectedFilters) {
-            return (
-                in_array($selectedFilters['ram'], [$server['RAM']]) ||
-                in_array($selectedFilters['location'], [$server['Location']]) ||
-                in_array($selectedFilters['storage'], [$server['Storage']]) ||
-                in_array($selectedFilters['hardDiskType'], [$server['HardDiskType']])
-            );
+            $isMatch = true;
+
+            if (!empty($selectedFilters['ram'])) {
+                $isMatch = $isMatch && empty(array_diff($selectedFilters['ram'], [$server['RamValue']]));
+            }
+
+            if (!empty($selectedFilters['location'])) {
+                $isMatch = $isMatch && in_array($selectedFilters['location'], [$server['Location']]);
+            }
+
+            if (!empty($selectedFilters['storage'])) {
+                $isMatch = $isMatch && in_array($selectedFilters['storage'], [$server['Storage']]);
+            }
+
+            if (!empty($selectedFilters['hardDiskType'])) {
+                $isMatch = $isMatch && in_array($selectedFilters['hardDiskType'], [$server['HardDiskType']]);
+            }
+
+            return $isMatch;
         });
 
         return $filteredServers;
@@ -64,6 +77,7 @@ class ServerInformationService
                 $result[] = [
                     'Model' => $item['Model'],
                     'RAM' => $item['RAM'],
+                    'RamValue' => $this->extractGBValue($item['RAM']),
                     'HDD' => $item['HDD'],
                     'Storage' => $storage . 'GB',
                     'HardDiskType' => ($hardDiskType === 'SSD' ? 'SSD' : ($hardDiskType === 'SATA' ? 'SATA' : 'SAS')),
@@ -76,5 +90,14 @@ class ServerInformationService
             }
         }
         return $result;
+    }
+
+    private function extractGBValue(string $value): string
+    {
+        preg_match('/(\d+)GB/', $value, $matches);
+        if (!empty($matches)) {
+            return $matches[1] . 'GB';
+        }
+        return '';
     }
 }
