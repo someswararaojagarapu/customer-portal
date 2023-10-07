@@ -5,7 +5,7 @@ namespace App\CustomerPortal\Dto\Request;
 class SearchQuery
 {
     public ?string $storage = '';
-    public ?string $ram = '';
+    public ?array $ram = [];
     public ?string $hardDiskType = '';
     public ?string $location = '';
 
@@ -19,12 +19,12 @@ class SearchQuery
         $this->storage = $storage;
     }
 
-    public function getRam(): ?string
+    public function getRam(): ?array
     {
         return $this->ram;
     }
 
-    public function setRam(?string $ram): void
+    public function setRam(?array $ram): void
     {
         $this->ram = $ram;
     }
