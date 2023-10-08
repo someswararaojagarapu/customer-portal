@@ -4,7 +4,8 @@ namespace App\CustomerPortal\Controller;
 
 use App\CustomerPortal\Dto\Request\SearchQuery;
 use App\CustomerPortal\Exception\NotFoundException;
-use App\CustomerPortal\Service\CacheFilterInformationService;
+use App\CustomerPortal\Service\CacheFilterInfoService;
+use App\CustomerPortal\Service\CacheServerInfoDataService;
 use App\CustomerPortal\Service\ServerInformationService;
 use App\CustomerPortal\Manager\FileReaderManager;
 use App\CustomerPortal\Service\ServerInfoValidationService;
@@ -19,15 +20,16 @@ class SearchController extends AbstractController
 {
     public function __construct(
         private readonly FileReaderManager $fileReaderManager,
-        private readonly CacheFilterInformationService $cacheFilterInformationService,
+        private readonly CacheFilterInfoService $cacheFilterInfoService,
         private readonly ServerInformationService $serverInformationService,
-        private readonly ServerInfoValidationService $serverInfoValidationService
+        private readonly ServerInfoValidationService $serverInfoValidationService,
+        private readonly CacheServerInfoDataService $cacheServerInfoDataService
     ) {}
 
     #[Route('/server/filter/list', name: 'server_filter_list', methods: 'GET')]
     public function filterList(int $filterExpirationTime): JsonResponse {
         try {
-            $response = $this->cacheFilterInformationService->getFilterResultFromRedis($filterExpirationTime);
+            $response = $this->cacheFilterInfoService->getFilterResultFromRedis($filterExpirationTime);
 
             return new JsonResponse($response, Response::HTTP_OK);
         } catch (NotFoundException $exception) {

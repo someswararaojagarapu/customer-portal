@@ -6,7 +6,7 @@ use App\CustomerPortal\Manager\FileReaderManager;
 use App\CustomerPortal\Redis\RedisKeys;
 use Predis\Connection\ConnectionException;
 
-class CacheFilterInformationService
+class CacheFilterInfoService
 {
     public function __construct(
         private readonly RedisAdapterService $redisAdapterService,
