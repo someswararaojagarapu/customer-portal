@@ -21,6 +21,7 @@ class ServerInformationService
         // Filter the servers based on selected filters
         $filteredServers = array_filter($inputData, function ($server) use ($selectedFilters) {
             $storage = $selectedFilters['storage'] ?? '';
+            $inputStorageValues = $this->getStorageFromFilters($storage);
             $ram = $selectedFilters['ram'] ?? '';
             $hardDiskType = $selectedFilters['hardDiskType'] ?? '';
             $locations = $selectedFilters['location'] ?? '';
@@ -34,9 +35,8 @@ class ServerInformationService
                 $isMatch = $isMatch && in_array($locations, [$server['Location']]);
             }
             // Storage range slider filter
-            $input = ['start' => 0, 'end' => 2048];
             if (!empty($storage)) {
-                $isMatch = $isMatch && ($server['Storage'] >= $input['start'] && $server['Storage'] <= $input['end']) ?? false;
+                $isMatch = $isMatch && ($server['Storage'] >= $inputStorageValues['from'] && $server['Storage'] <= $inputStorageValues['to']) ?? false;
             }
             // hardDisk dropdown filter
             if (!empty($hardDiskType)) {
@@ -97,5 +97,18 @@ class ServerInformationService
             return $matches[1] . 'GB';
         }
         return '';
+    }
+
+    public function getStorageFromFilters(string $inputStorage): array
+    {
+        if (empty($inputStorage)) {
+            return ['from' => null, 'to' => null];
+        }
+
+        $explodeInputStorage = explode(' ', $inputStorage);
+        $from = isset($explodeInputStorage[0]) ? (int) $explodeInputStorage[0] : null;
+        $to = isset($explodeInputStorage[2]) ? (int) $explodeInputStorage[2] : null;
+
+        return ['from' => $from, 'to' => $to];
     }
 }

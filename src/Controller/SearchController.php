@@ -38,7 +38,7 @@ class SearchController extends AbstractController
     }
 
     #[Route('/server/information/list', name: 'server_information_list', methods: 'POST')]
-    public function index(
+    public function serverInfoList(
         #[MapRequestPayload(serializationContext: [])] SearchQuery $searchQuery,
         int $filterExpirationTime
     ): JsonResponse {
