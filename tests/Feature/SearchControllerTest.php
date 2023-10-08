@@ -55,8 +55,6 @@ class SearchControllerTest extends WebTestCase
         );
         $response = $this->client->getResponse();
         $this->assertEquals($statusCode, $response->getStatusCode());
-
-
         $this->assertIsString($response->getContent());
         $apiResult = json_decode($response->getContent(), true);
         $this->assertIsArray($apiResult);
@@ -857,7 +855,7 @@ class SearchControllerTest extends WebTestCase
                 "hardDiskType" => "SATA",
                 "location" => "AmsterdamAMS-01"
             ],
-            'expectedOutPut' => []
+            'expectedOutPut' => ["The option \"ram\" with value array is invalid."]
         ];
     }
 
@@ -870,7 +868,7 @@ class SearchControllerTest extends WebTestCase
                 "hardDiskType" => "SATATest",
                 "location" => "AmsterdamAMS-01"
             ],
-            'expectedOutPut' => []
+            'expectedOutPut' => ["The option \"hardDiskType\" with value \"SATATest\" is invalid."]
         ];
     }
 }
