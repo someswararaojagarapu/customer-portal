@@ -15,34 +15,35 @@ class ServerInformationService
             'location' => $searchQuery->getLocation()
         ];
     }
+
     public function getServerInformationResult(array $selectedFilters, string $serverInfoJson): array
     {
         $data = json_decode($serverInfoJson, true);
         $inputData = $this->prepareInputData($data);
 
-//        $storage = $selectedFilters['storage'];
-//        $ram = $selectedFilters['ram'];
-//        $hardDiskType = $selectedFilters['hardDiskType'];
-//        $locations = $selectedFilters['location'];
-
         // Filter the servers based on selected filters
         $filteredServers = array_filter($inputData, function ($server) use ($selectedFilters) {
+            $storage = $selectedFilters['storage'] ?? '';
+            $ram = $selectedFilters['ram'] ?? '';
+            $hardDiskType = $selectedFilters['hardDiskType'] ?? '';
+            $locations = $selectedFilters['location'] ?? '';
             $isMatch = true;
-
-            if (!empty($selectedFilters['ram'])) {
-                $isMatch = $isMatch && empty(array_diff($selectedFilters['ram'], [$server['RamValue']]));
+            // Ram checkbox filter
+            if (!empty($ram)) {
+                $isMatch = $isMatch && empty(array_diff($ram, [$server['RamValue']]));
             }
-
-            if (!empty($selectedFilters['location'])) {
-                $isMatch = $isMatch && in_array($selectedFilters['location'], [$server['Location']]);
+            // Location dropdown filter
+            if (!empty($locations)) {
+                $isMatch = $isMatch && in_array($locations, [$server['Location']]);
             }
-
-            if (!empty($selectedFilters['storage'])) {
-                $isMatch = $isMatch && in_array($selectedFilters['storage'], [$server['Storage']]);
+            // Storage range slider filter
+            $input = ['start' => 0, 'end' => 2048];
+            if (!empty($storage)) {
+                $isMatch = $isMatch && ($server['Storage'] >= $input['start'] && $server['Storage'] <= $input['end']) ?? false;
             }
-
-            if (!empty($selectedFilters['hardDiskType'])) {
-                $isMatch = $isMatch && in_array($selectedFilters['hardDiskType'], [$server['HardDiskType']]);
+            // hardDisk dropdown filter
+            if (!empty($hardDiskType)) {
+                $isMatch = $isMatch && in_array($hardDiskType, [$server['HardDiskType']]);
             }
 
             return $isMatch;
@@ -79,7 +80,7 @@ class ServerInformationService
                     'RAM' => $item['RAM'],
                     'RamValue' => $this->extractGBValue($item['RAM']),
                     'HDD' => $item['HDD'],
-                    'Storage' => $storage . 'GB',
+                    'Storage' => $storage, // . 'GB'
                     'HardDiskType' => ($hardDiskType === 'SSD' ? 'SSD' : ($hardDiskType === 'SATA' ? 'SATA' : 'SAS')),
                     'Location' => $item['Location'],
                     'Price' => $item['Price']

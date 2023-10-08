@@ -7,9 +7,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ServerInfoValidationService
 {
-    private $exceptionMessages = [];
+    private array $exceptionMessages = [];
 
-    public function checkRequestPayloadOptions(array $queryArguments)
+    public function checkRequestPayloadOptions(array $queryArguments): array
     {
         $resolver = new OptionsResolver();
         $this->serverInfoRequestPayloadOptions($resolver);
@@ -22,7 +22,7 @@ class ServerInfoValidationService
         return $this->exceptionMessages;
     }
 
-    private function serverInfoRequestPayloadOptions(OptionsResolver $resolver)
+    private function serverInfoRequestPayloadOptions(OptionsResolver $resolver): void
     {
         $serverInfoRequestPayloadFields = $this->serverInfoRequestPayloadFields();
         $ramOptions = FilterInformationService::RAM_OPTIONS;
@@ -45,12 +45,6 @@ class ServerInfoValidationService
                 return true;
             })
             ->setAllowedTypes('location', 'string')
-//            ->setAllowedValues('location', function ($location) use ($hardDiskOptions) {
-//                if(!in_array($location, array_values($hardDiskOptions))) {
-//                    return false;
-//                }
-//                return true;
-//            })
         ;
     }
     private function serverInfoRequestPayloadFields():array
