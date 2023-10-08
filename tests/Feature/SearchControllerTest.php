@@ -54,16 +54,13 @@ class SearchControllerTest extends WebTestCase
             json_encode($requestBody)
         );
         $response = $this->client->getResponse();
-        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertEquals($statusCode, $response->getStatusCode());
 
-        // Validate a successful response and some content
-        $this->assertResponseIsSuccessful();
+
         $this->assertIsString($response->getContent());
         $apiResult = json_decode($response->getContent(), true);
         $this->assertIsArray($apiResult);
         $this->assertEquals(count($expectedResponse), count($apiResult));
-//        $this->assertEquals(FilterInformationService::HARD_DISK_OPTIONS, $apiResult['HardDiskTypes']);
-//        $this->assertEquals($this->getLocations(), $apiResult['Location']);
     }
 
     public function getLocations(): array
@@ -120,13 +117,13 @@ class SearchControllerTest extends WebTestCase
             'Failure scenario with wrong ram' => [
                 self::failurePayloadWithWrongRam()['requestPayload'],
                 'contentType' => 'application/json',
-                [],
+                self::failurePayloadWithWrongRam()['expectedOutPut'],
                 Response::HTTP_UNPROCESSABLE_ENTITY
             ],
             'Failure scenario with wrong hardDiskType' => [
                 self::failurePayloadWithWrongHardDiskType()['requestPayload'],
                 'contentType' => 'application/json',
-                [],
+                self::failurePayloadWithWrongHardDiskType()['expectedOutPut'],
                 Response::HTTP_UNPROCESSABLE_ENTITY
             ],
         ];
@@ -859,7 +856,8 @@ class SearchControllerTest extends WebTestCase
                 "ram" => ["165GB"],
                 "hardDiskType" => "SATA",
                 "location" => "AmsterdamAMS-01"
-            ]
+            ],
+            'expectedOutPut' => []
         ];
     }
 
@@ -871,7 +869,8 @@ class SearchControllerTest extends WebTestCase
                 "ram" => ["165GB"],
                 "hardDiskType" => "SATATest",
                 "location" => "AmsterdamAMS-01"
-            ]
+            ],
+            'expectedOutPut' => []
         ];
     }
 }
