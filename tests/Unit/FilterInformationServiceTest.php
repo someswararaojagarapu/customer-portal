@@ -32,13 +32,13 @@ class FilterInformationServiceTest extends WebTestCase
     public function getLocations():array
     {
         return [
-            "AmsterdamAMS-01",
-            "Washington D.C.WDC-01",
-            "San FranciscoSFO-12",
-            "SingaporeSIN-11",
-            "DallasDAL-10",
-            "FrankfurtFRA-10",
-            "Hong KongHKG-10"
+            'AmsterdamAMS-01',
+            'Washington D.C.WDC-01',
+            'San FranciscoSFO-12',
+            'SingaporeSIN-11',
+            'DallasDAL-10',
+            'FrankfurtFRA-10',
+            'Hong KongHKG-10'
         ];
     }
 }
