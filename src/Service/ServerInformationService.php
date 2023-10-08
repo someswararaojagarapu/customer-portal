@@ -16,11 +16,8 @@ class ServerInformationService
         ];
     }
 
-    public function getServerInformationResult(array $selectedFilters, string $serverInfoJson): array
+    public function getServerInformationResult(array $selectedFilters, array $inputData): array
     {
-        $data = json_decode($serverInfoJson, true);
-        $inputData = $this->prepareInputData($data);
-
         // Filter the servers based on selected filters
         $filteredServers = array_filter($inputData, function ($server) use ($selectedFilters) {
             $storage = $selectedFilters['storage'] ?? '';

@@ -7,7 +7,6 @@ use App\CustomerPortal\Exception\NotFoundException;
 use App\CustomerPortal\Service\CacheFilterInfoService;
 use App\CustomerPortal\Service\CacheServerInfoDataService;
 use App\CustomerPortal\Service\ServerInformationService;
-use App\CustomerPortal\Manager\FileReaderManager;
 use App\CustomerPortal\Service\ServerInfoValidationService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
@@ -19,7 +18,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class SearchController extends AbstractController
 {
     public function __construct(
-        private readonly FileReaderManager $fileReaderManager,
         private readonly CacheFilterInfoService $cacheFilterInfoService,
         private readonly ServerInformationService $serverInformationService,
         private readonly ServerInfoValidationService $serverInfoValidationService,
@@ -41,7 +39,8 @@ class SearchController extends AbstractController
 
     #[Route('/server/information/list', name: 'server_information_list', methods: 'POST')]
     public function index(
-        #[MapRequestPayload(serializationContext: [])] SearchQuery $searchQuery
+        #[MapRequestPayload(serializationContext: [])] SearchQuery $searchQuery,
+        int $filterExpirationTime
     ): JsonResponse {
         try {
             $query = $this->serverInformationService->getQuery($searchQuery);
@@ -49,8 +48,8 @@ class SearchController extends AbstractController
             if (!empty($resolverErrors)) {
                 return new JsonResponse($resolverErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
             }
-            $serverInfoJson = $this->fileReaderManager->readJson();
-            $response = $this->serverInformationService->getServerInformationResult($query, $serverInfoJson);
+            $inputData = $this->cacheServerInfoDataService->getServerInfoDataFromRedis($filterExpirationTime);
+            $response = $this->serverInformationService->getServerInformationResult($query, $inputData);
 
             return new JsonResponse($response, Response::HTTP_OK);
         } catch (NotFoundException $exception) {

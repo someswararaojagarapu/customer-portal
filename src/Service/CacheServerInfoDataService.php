@@ -32,7 +32,7 @@ class CacheServerInfoDataService
         }
     }
 
-    public function getServerInformationDataFromRedis(
+    public function getServerInfoDataFromRedis(
         int $filterExpirationTime
     ): array {
         $serverInfoDataKeyFromRedis = RedisKeys::SERVER_INFORMATION_DATA_KEY_REDIS;
