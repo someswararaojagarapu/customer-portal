@@ -90,7 +90,7 @@ class SearchControllerTest extends WebTestCase
             'Success scenario with wrong location' => [
                 self::successScenarioWithWrongLocationPayload()['requestPayload'],
                 'contentType' => 'application/json',
-                self::successPayload()['expectedOutPut'],
+                self::successScenarioWithWrongLocationPayload()['expectedOutPut'],
                 Response::HTTP_OK
             ],
             'Success scenario with location and storage' => [
@@ -112,9 +112,9 @@ class SearchControllerTest extends WebTestCase
                 Response::HTTP_OK
             ],
             'Success scenario with storage ram and hardDiskType' => [
-                self::successScenarioWithStorageAndHardDiskTypePayload()['requestPayload'],
+                self::successScenarioWithStorageRamAndHardDiskTypePayload()['requestPayload'],
                 'contentType' => 'application/json',
-                self::successScenarioWithStorageAndHardDiskTypePayload()['expectedOutPut'],
+                self::successScenarioWithStorageRamAndHardDiskTypePayload()['expectedOutPut'],
                 Response::HTTP_OK
             ],
             'Failure scenario with wrong ram' => [
@@ -225,9 +225,7 @@ class SearchControllerTest extends WebTestCase
                 "hardDiskType" => "SATA",
                 "location" => "AmsterdamAMS-02"
             ],
-            'expectedOutPut' => [
-                []
-            ]
+            'expectedOutPut' => []
         ];
     }
 
@@ -536,13 +534,11 @@ class SearchControllerTest extends WebTestCase
                 "hardDiskType" => "",
                 "location" => "1"
             ],
-            'expectedOutPut' => [
-                []
-            ]
+            'expectedOutPut' => []
         ];
     }
 
-    public static function successScenarioWithStorageAndHardDiskTypePayload(): array{
+    public static function successScenarioWithStorageRamAndHardDiskTypePayload(): array{
         return [
             'requestPayload' => [
                 "storage" => "0 to 5000",
@@ -551,7 +547,6 @@ class SearchControllerTest extends WebTestCase
                 "location" => "AmsterdamAMS-01"
             ],
             'expectedOutPut' => [
-                [
                     [
                         "Model" => "Dell R210Intel Xeon X3440",
                         "RAM" => "16GBDDR3",
@@ -853,7 +848,6 @@ class SearchControllerTest extends WebTestCase
                         "Price" => "€1807.99"
                     ]
                 ]
-            ]
         ];
     }
 
