@@ -44,7 +44,7 @@ const ServerList = () => {
             <ServerFilters onFilterChange={applyFilters}/>
             <main className="col-md-9 py-3 " style={{padding:'1rem 1rem 1rem 0'}}>
                 <div className="bg-white p-3 h-100" style={{borderRadius:'10px'}}>
-                    <h2 style={{borderBottom:'1px solid lightgray',paddingBottom:'10px'}}>Server List</h2>
+                    <h2 style={{borderBottom:'1px solid lightgray',paddingBottom:'10px'}}>Server List with information</h2>
                     {isRendered ? (
                         <>
                             <div className="row p-3">
