@@ -10,7 +10,6 @@ const ServerList = () => {
     const [currentPage, setCurrentPage] = useState(0);
     const [isRendered, setIsRendered] = useState(false);
 
-
     useEffect(() => {
         setFilteredServers(serverInfoJson);
         setIsRendered(true);
@@ -18,7 +17,7 @@ const ServerList = () => {
 
     const applyFilters = async (filters) => {
         setIsRendered(false);
-        await fetch('https://localhost:8000/api/server/information/list', {
+        await fetch(`${hostName}/api/server/information/list`, {
             method: 'POST',
             body: JSON.stringify(filters),
             headers: {
@@ -62,20 +61,22 @@ const ServerList = () => {
 
                                 ))}
                             </div>
-                            <div className="col-md-12">
-                                <ReactPaginate
-                                    previousLabel={'Previous'}
-                                    nextLabel={'Next'}
-                                    breakLabel={'...'}
-                                    breakClassName={'break-me'}
-                                    pageCount={Math.ceil(filteredServers.length / perPage)}
-                                    pageRangeDisplayed={5}
-                                    onPageChange={handlePageClick}
-                                    containerClassName={'pagination'}
-                                    subContainerClassName={'pages pagination'}
-                                    activeClassName={'active'}
-                                />
-                            </div>
+                            {slicedServers.length > 0 && (
+                                <div className="col-md-12">
+                                    <ReactPaginate
+                                        previousLabel={'Previous'}
+                                        nextLabel={'Next'}
+                                        breakLabel={'...'}
+                                        breakClassName={'break-me'}
+                                        pageCount={Math.ceil(filteredServers.length / perPage)}
+                                        pageRangeDisplayed={5}
+                                        onPageChange={handlePageClick}
+                                        containerClassName={'pagination'}
+                                        subContainerClassName={'pages pagination'}
+                                        activeClassName={'active'}
+                                    />
+                                </div>
+                            )}
                         </>
                     ) : (
                         <>

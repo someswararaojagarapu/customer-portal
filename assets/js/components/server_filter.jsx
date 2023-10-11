@@ -24,12 +24,6 @@ const ServerFilters = ({onFilterChange}) => {
         return marks;
     };
 
-    // useEffect(() => {
-    //     // Call your function here
-    //     handleFilterChange();
-    // }, [ramFilters,hardDiskTypeFilter,locationFilter,storageFilter]); // This will run the effect whenever hardDiskTypeFilter changes
-
-
     const [filterOptions, setFilterOptions] = useState({
         Storage: [],
         Ram: [],
@@ -38,7 +32,7 @@ const ServerFilters = ({onFilterChange}) => {
     });
 
     useEffect(() => {
-        fetch('https://localhost:8000/api/server/filter/list')
+        fetch(`${hostName}/api/server/filter/list`)
             .then((response) => response.json())
             .then((data) => {
                 setFilterOptions(data)

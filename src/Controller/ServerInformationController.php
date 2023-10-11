@@ -14,7 +14,10 @@ class ServerInformationController extends AbstractController
         try {
             $serverInfoJson = $fileReaderManager->readJson();
 
-            return $this->render('server_information.html.twig', ['serverInfoJson' => $serverInfoJson]);
+            return $this->render('server_information.html.twig', [
+                'serverInfoJson' => $serverInfoJson,
+                'hostName' => $_ENV['HOST_NAME']
+                ]);
         } catch (\Exception $exception) {
             return new JsonResponse(['error' => $exception->getMessage()], $exception->getCode());
         }
