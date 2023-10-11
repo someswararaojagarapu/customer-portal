@@ -30,10 +30,8 @@ class SearchController extends AbstractController
             $response = $this->cacheFilterInfoService->getFilterResultFromRedis($filterExpirationTime);
 
             return new JsonResponse($response, Response::HTTP_OK);
-        } catch (NotFoundException $exception) {
-            return new JsonResponse(['error' => $exception->getMessage()], Response::HTTP_NOT_FOUND);
         } catch (\Exception $exception) {
-            return new JsonResponse(['error' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return new JsonResponse(['error' => $exception->getMessage()], $exception->getCode());
         }
     }
 
@@ -52,10 +50,8 @@ class SearchController extends AbstractController
             $response = $this->serverInformationService->getServerInformationResult($query, $inputData);
 
             return new JsonResponse($response, Response::HTTP_OK);
-        } catch (NotFoundException $exception) {
-            return new JsonResponse(['error' => $exception->getMessage()], Response::HTTP_NOT_FOUND);
         } catch (\Exception $exception) {
-            return new JsonResponse(['error' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return new JsonResponse(['error' => $exception->getMessage()], $exception->getCode());
         }
     }
 }

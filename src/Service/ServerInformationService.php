@@ -28,7 +28,7 @@ class ServerInformationService
             $isMatch = true;
             // Ram checkbox filter
             if (!empty($ram)) {
-                $isMatch = $isMatch && empty(array_diff($ram, [$server['RamValue']]));
+                $isMatch = $isMatch && in_array($server['RamValue'], $ram);
             }
             // Location dropdown filter
             if (!empty($locations)) {
