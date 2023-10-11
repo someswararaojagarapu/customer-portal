@@ -50,11 +50,11 @@ const ServerList = () => {
                         <>
                             <div className="row p-3">
                                 {slicedServers.map((server, index) => (
-                                    <div className="col-md-3 p-3">
+                                    <div className="col-md-3 p-3" key={index}>
                                         <div className="h-100 p-3" style={{boxShadow: "0 0 12px 1px hsla(0,0%,48%,.5",borderRadius:'7px'}} key={index}>
                                             <h4>{server.Model}</h4>
                                             <p>Ram: {server.RAM}</p>
-                                            <p>HardDiskType: {server.HardDiskType}</p>
+                                            <p>HDD: {server.HDD}</p>
                                             <p>Price: {server.Price}</p>
                                             <p>Location: {server.Location}</p>
                                         </div>

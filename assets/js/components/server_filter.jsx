@@ -13,6 +13,23 @@ const ServerFilters = ({onFilterChange}) => {
         console.log(e);
     };
 
+    const generateMarks = () => {
+        const marks = {};
+        const values = [0, 250, 500, 1000, 2000, 3000, 4000, 8000, 12000, 24000, 48000, 72000];
+
+        values.forEach(value => {
+            marks[value] = `${value / 1000}TB`;
+        });
+
+        return marks;
+    };
+
+    // useEffect(() => {
+    //     // Call your function here
+    //     handleFilterChange();
+    // }, [ramFilters,hardDiskTypeFilter,locationFilter,storageFilter]); // This will run the effect whenever hardDiskTypeFilter changes
+
+
     const [filterOptions, setFilterOptions] = useState({
         Storage: [],
         Ram: [],
@@ -55,8 +72,10 @@ const ServerFilters = ({onFilterChange}) => {
                                 step={250}
                                 value={range}
                                 onChange={handleSliderChange}
+                                marks={generateMarks()}
                             />
-                            <p>Range: {range[0]} - {range[1]}</p>
+                            <br />
+                            <p>Range: {range[0] / 1000}TB - {range[1] / 1000}TB</p>
                         </li>
                         <li className="nav-item py-2">
 
@@ -127,4 +146,3 @@ const ServerFilters = ({onFilterChange}) => {
 };
 
 export default ServerFilters;
-
