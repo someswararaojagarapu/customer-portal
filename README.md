@@ -64,3 +64,7 @@ Request Payload :
 }
 
 This API will return after applying filters, will return server information.
+
+## Front end view Url :
+
+https://localhost:8000/server/information/view
