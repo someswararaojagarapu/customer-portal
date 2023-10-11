@@ -10,7 +10,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class ServerInformationController extends AbstractController
 {
     #[Route('/server/information/view', name: 'server_information_view')]
-    public function serverInformationView(FileReaderManager $fileReaderManager) {
+    public function serverInformationView(FileReaderManager $fileReaderManager)
+    {
         try {
             $serverInfoJson = $fileReaderManager->readJson();
 

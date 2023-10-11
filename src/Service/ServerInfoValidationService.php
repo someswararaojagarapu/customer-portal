@@ -15,7 +15,7 @@ class ServerInfoValidationService
         $this->serverInfoRequestPayloadOptions($resolver);
         try {
             $resolver->resolve($queryArguments);
-        }catch(InvalidOptionsException $exception) {
+        } catch (InvalidOptionsException $exception) {
             $this->exceptionMessages[] = $exception->getMessage();
         }
 
@@ -32,14 +32,14 @@ class ServerInfoValidationService
             ->setAllowedTypes('storage', 'string')
             ->setAllowedTypes('ram', 'array')
             ->setAllowedValues('ram', function ($ram) use ($ramOptions) {
-                if(!empty(array_diff($ram, $ramOptions))) {
+                if (!empty(array_diff($ram, $ramOptions))) {
                     return false;
                 }
                 return true;
             })
             ->setAllowedTypes('hardDiskType', 'string')
             ->setAllowedValues('hardDiskType', function ($hardDiskType) use ($hardDiskOptions) {
-                if(!empty($hardDiskType) && !in_array($hardDiskType, array_values($hardDiskOptions))) {
+                if (!empty($hardDiskType) && !in_array($hardDiskType, array_values($hardDiskOptions))) {
                     return false;
                 }
                 return true;
@@ -47,7 +47,7 @@ class ServerInfoValidationService
             ->setAllowedTypes('location', 'string')
         ;
     }
-    private function serverInfoRequestPayloadFields():array
+    private function serverInfoRequestPayloadFields(): array
     {
         return ['storage', 'ram', 'hardDiskType', 'location'];
     }

@@ -33,7 +33,7 @@ class CacheFilterInfoServiceTest extends WebTestCase
     public function testGetFilterResultFromRedis(): void
     {
         // call CacheFilterInfo Service
-        $serviceResult =$this->cacheFilterInfoService->getFilterResultFromRedis($_ENV['FILTER_EXPIRATION_TIME']);
+        $serviceResult = $this->cacheFilterInfoService->getFilterResultFromRedis($_ENV['FILTER_EXPIRATION_TIME']);
         $this->assertIsArray($serviceResult);
         $this->assertEquals(FilterInformationService::STORAGE_OPTIONS, $serviceResult['Storage']);
         $this->assertEquals(FilterInformationService::RAM_OPTIONS, $serviceResult['Ram']);
@@ -41,7 +41,7 @@ class CacheFilterInfoServiceTest extends WebTestCase
         $this->assertEquals($this->getLocations(), $serviceResult['Location']);
     }
 
-    public function getLocations():array
+    public function getLocations(): array
     {
         return [
                 'AmsterdamAMS-01',

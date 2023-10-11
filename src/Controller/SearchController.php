@@ -3,7 +3,6 @@
 namespace App\CustomerPortal\Controller;
 
 use App\CustomerPortal\Dto\Request\SearchQuery;
-use App\CustomerPortal\Exception\NotFoundException;
 use App\CustomerPortal\Service\CacheFilterInfoService;
 use App\CustomerPortal\Service\CacheServerInfoDataService;
 use App\CustomerPortal\Service\ServerInformationService;
@@ -22,10 +21,12 @@ class SearchController extends AbstractController
         private readonly ServerInformationService $serverInformationService,
         private readonly ServerInfoValidationService $serverInfoValidationService,
         private readonly CacheServerInfoDataService $cacheServerInfoDataService
-    ) {}
+    ) {
+    }
 
     #[Route('/server/filter/list', name: 'server_filter_list', methods: 'GET')]
-    public function filterList(int $filterExpirationTime): JsonResponse {
+    public function filterList(int $filterExpirationTime): JsonResponse
+    {
         try {
             $response = $this->cacheFilterInfoService->getFilterResultFromRedis($filterExpirationTime);
 

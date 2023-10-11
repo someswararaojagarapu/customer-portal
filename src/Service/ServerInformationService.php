@@ -6,7 +6,7 @@ use App\CustomerPortal\Dto\Request\SearchQuery;
 
 class ServerInformationService
 {
-    public function getQuery(SearchQuery $searchQuery):array
+    public function getQuery(SearchQuery $searchQuery): array
     {
         return [
             'storage' => $searchQuery->getStorage(),

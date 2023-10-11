@@ -22,7 +22,7 @@ class FileReaderManager
         try {
             $projectRoot = $this->appKernel->getProjectDir();
 
-            return file_get_contents($projectRoot.'/public/assets/json/'.self::JSON_FILE_NAME);
+            return file_get_contents($projectRoot . '/public/assets/json/' . self::JSON_FILE_NAME);
         } catch (FileNotFoundException $e) {
             return new Response('File Not found', Response::HTTP_NOT_FOUND);
         }

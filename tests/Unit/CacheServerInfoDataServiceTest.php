@@ -31,7 +31,7 @@ class CacheServerInfoDataServiceTest extends WebTestCase
     public function testGetServerInfoDataFromRedis(): void
     {
         // call CacheServerInfoData Service
-        $serviceResult =$this->cacheServerInfoDataService->getServerInfoDataFromRedis($_ENV['FILTER_EXPIRATION_TIME']);
+        $serviceResult = $this->cacheServerInfoDataService->getServerInfoDataFromRedis($_ENV['FILTER_EXPIRATION_TIME']);
         $this->assertIsArray($serviceResult);
         $this->assertEquals('Dell R210Intel Xeon X3440', $serviceResult[0]['Model']);
         $this->assertEquals('16GBDDR3', $serviceResult[0]['RAM']);
@@ -43,7 +43,7 @@ class CacheServerInfoDataServiceTest extends WebTestCase
         $this->assertEquals('€49.99', $serviceResult[0]['Price']);
     }
 
-    public function getLocations():array
+    public function getLocations(): array
     {
         return [
             'AmsterdamAMS-01',

@@ -27,7 +27,7 @@ class ServerInformationServiceTest extends WebTestCase
         $searchQuery = $this->createSearchQueryObject();
 
         // call ServerInformation Service
-        $serviceResult =$this->serverInformationService->getQuery($searchQuery);
+        $serviceResult = $this->serverInformationService->getQuery($searchQuery);
         $this->assertIsArray($serviceResult);
         $this->assertEquals('0 to 5000', $serviceResult['storage']);
         $this->assertEquals(['16GB'], $serviceResult['ram']);
@@ -42,7 +42,7 @@ class ServerInformationServiceTest extends WebTestCase
         // call ServerInformation Service
         $query = $this->serverInformationService->getQuery($searchQuery);
         $inputData = $this->cacheServerInfoDataService->getServerInfoDataFromRedis($_ENV['FILTER_EXPIRATION_TIME']);
-        $serviceResult =$this->serverInformationService->getServerInformationResult($query, $inputData);
+        $serviceResult = $this->serverInformationService->getServerInformationResult($query, $inputData);
         $this->assertIsArray($serviceResult);
         $this->assertEquals('Dell R210Intel Xeon X3440', $serviceResult[0]['Model']);
         $this->assertEquals('16GBDDR3', $serviceResult[0]['RAM']);
@@ -59,7 +59,7 @@ class ServerInformationServiceTest extends WebTestCase
         $serverInfoJson = $this->fileReaderManager->readJson();
         $data = json_decode($serverInfoJson, true);
         // call ServerInformation Service
-        $serviceResult =$this->serverInformationService->prepareInputData($data);
+        $serviceResult = $this->serverInformationService->prepareInputData($data);
         $this->assertIsArray($serviceResult);
         $this->assertCount(486, $serviceResult);
         $this->assertEquals('Dell R210Intel Xeon X3440', $serviceResult[0]['Model']);
@@ -72,7 +72,7 @@ class ServerInformationServiceTest extends WebTestCase
         $this->assertEquals('€49.99', $serviceResult[0]['Price']);
     }
 
-    public function createSearchQueryObject():SearchQuery
+    public function createSearchQueryObject(): SearchQuery
     {
         $searchQuery = new SearchQuery();
         $searchQuery->setStorage('0 to 5000');

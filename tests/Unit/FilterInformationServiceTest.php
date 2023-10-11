@@ -21,7 +21,7 @@ class FilterInformationServiceTest extends WebTestCase
     {
         $serverInfoJson = $this->fileReaderManager->readJson();
         // call FilterInformation Service
-        $serviceResult =$this->filterInformationService->getFilterResult($serverInfoJson);
+        $serviceResult = $this->filterInformationService->getFilterResult($serverInfoJson);
         $this->assertIsArray($serviceResult);
         $this->assertEquals(FilterInformationService::STORAGE_OPTIONS, $serviceResult['Storage']);
         $this->assertEquals(FilterInformationService::RAM_OPTIONS, $serviceResult['Ram']);
@@ -29,7 +29,7 @@ class FilterInformationServiceTest extends WebTestCase
         $this->assertEquals($this->getLocations(), $serviceResult['Location']);
     }
 
-    public function getLocations():array
+    public function getLocations(): array
     {
         return [
             'AmsterdamAMS-01',

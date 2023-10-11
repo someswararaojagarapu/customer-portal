@@ -16,7 +16,8 @@ class SearchControllerTest extends WebTestCase
         $this->client = static::createClient();
     }
 
-    public function testFilterList(): void {
+    public function testFilterList(): void
+    {
         $this->client->request(
             'GET',
             self::FILTER_API_URL
@@ -494,11 +495,12 @@ class SearchControllerTest extends WebTestCase
                     'Location' => 'SingaporeSIN-11',
                     'Price' => 'S$4662.99'
                 ]
-        ]
+            ]
         ];
     }
 
-    public static function successScenarioWithRamAndStoragePayload(): array{
+    public static function successScenarioWithRamAndStoragePayload(): array
+    {
         return [
             'requestPayload' => [
                 'storage' => '0 to 2048',
@@ -521,7 +523,8 @@ class SearchControllerTest extends WebTestCase
         ];
     }
 
-    public static function successScenarioWithMultipleRamAndStoragePayload(): array{
+    public static function successScenarioWithMultipleRamAndStoragePayload(): array
+    {
         return [
             'requestPayload' => [
                 'storage' => '0 to 2048',
@@ -533,7 +536,8 @@ class SearchControllerTest extends WebTestCase
         ];
     }
 
-    public static function successScenarioWithStorageRamAndHardDiskTypePayload(): array{
+    public static function successScenarioWithStorageRamAndHardDiskTypePayload(): array
+    {
         return [
             'requestPayload' => [
                 'storage' => '0 to 5000',
